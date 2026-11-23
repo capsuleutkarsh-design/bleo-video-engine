@@ -150,7 +150,7 @@ EOF
   cfg "${MESON[@]}" --default-library shared --prefer-static \
       -Dauto_features=disabled -Dlibmpv=true -Dcplayer=false -Dgpl=false -Dtests=false \
       -Dbuild-date=false -Dzlib=enabled -Daudiotrack=enabled -Daaudio=enabled -Dopensles=enabled \
-      -Dgl=enabled -Degl=enabled -Degl-android=enabled -Dandroid-media-ndk=enabled \
+      -Dgl=enabled -Degl-android=enabled -Dandroid-media-ndk=enabled \
       -Dvulkan=disabled \
       -Dcplugins=disabled -Dlua=disabled -Djavascript=disabled \
       "$B/b-mpv" "$S/mpv"
