@@ -46,6 +46,27 @@ jobs:
             out-android/CONFIGURE.txt
             out-android/BUILDINFO.txt
 
+      # The end of the failing step's output as an annotation, so it can be read through the API too
+      # (some networks block the log download servers).
+      - name: Show the error
+        if: failure()
+        run: |
+          python3 - <<'EOF'
+          import glob
+          enc = lambda s: s.replace("%", "%25").replace(chr(13), "%0D").replace(chr(10), "%0A")
+          for f in ['work-android/step.log'] + glob.glob('work-android/*/b-*/meson-logs/meson-log.txt'):
+              try:
+                  text = open(f, errors='replace').read()
+              except OSError:
+                  continue
+              if 'meson-log' in f:
+                  i = text.rfind('ERROR')
+                  if i < 0:
+                      continue
+                  text = text[max(0, i - 1500):i + 1500]
+              print('::error title=' + f + '::' + enc(text[-3800:]))
+          EOF
+
       - name: Upload logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
